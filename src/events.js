@@ -5,10 +5,8 @@ exports.handler = async (event, context, callback) => {
   const body = JSON.parse(event.body)
   const slackEvent = body.event
   console.log(JSON.stringify(body, null, 4))
-  console.log('aaaaaaaa')
 
   if (slackEvent && slackEvent.type === 'reaction_added' && slackEvent.item.type === 'message') {
-      console.log('bbbbbbbb')
     const web = new WebClient(process.env.SLACK_TOKEN)
     const res = await web.conversations.history({
       latest: slackEvent.item.ts,
@@ -16,7 +14,6 @@ exports.handler = async (event, context, callback) => {
       channel: slackEvent.item.channel,
       inclusive: true
     })
-    console.log('ooooooooooooooo')
     const message = res.messages[0]
     const octokit = Octokit()
     octokit.authenticate({
@@ -25,7 +22,7 @@ exports.handler = async (event, context, callback) => {
     })
 
     const content = (new Buffer(message.text)).toString('base64')
-    console.log('pppppppppppppppppppp')
+
     octokit.repos.createFile({
       owner: 'tomouchi',
       repo: 'netlify-slack-app',
@@ -34,9 +31,7 @@ exports.handler = async (event, context, callback) => {
       content
     })
     
-    
     console.log(JSON.stringify(message, null, 4))
-    console.log('zzzzzzzzz')
   }
 
   callback(null, {
