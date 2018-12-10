@@ -27,7 +27,7 @@ exports.handler = async (event, context, callback) => {
     const content = (new Buffer(message.text)).toString('base64')
     console.log('pppppppppppppppppppp')
     octokit.repos.createFile({
-      owner: 'mottox2',
+      owner: 'tomouchi',
       repo: 'netlify-slack-app',
       path: `data/${slackEvent.item.ts}.txt`,
       message: 'Added by netlify-slack-app',
